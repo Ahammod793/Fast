@@ -11,8 +11,8 @@ export default function Footer() {
     <div className="bg-footer py-8">
       <div className="grid grid-cols-3 w-11/12 mx-auto ">
         <div className="flex flex-col">
-          <h1 className="text-primery font-bold text-4xl mb-5">Contuct Info</h1>
-          <ul>
+          <h1 className="text-primary font-bold text-4xl mb-5">Contuct Info</h1>
+          <ul className="text-primary">
             <li className="text-xl italic text-primary pb-1">
               Fast@contuct.com
             </li>
@@ -28,25 +28,25 @@ export default function Footer() {
             </li>
             <li className="flex flex-row gap-8 mt-6 ">
               <Link
-                className="hover:bg-secondary hover:text-primary text-xl p-1 border-2 border-primary hover:rounded-lg hover:text-[#318890]"
+                className="hover:bg-secondary hover:bg-card text-xl p-1 border-2 border-primary hover:rounded-lg hover:text-[#318890]"
                 to="https://www.facebook.com/Ahammodl/"
               >
                 <FaFacebook />
               </Link>
               <Link
-                className="hover:bg-secondary hover:text-primary text-xl p-1 border-2 border-primary hover:rounded-lg hover:text-[#42bbb5]"
+                className="hover:bg-secondary hover:bg-card text-xl p-1 border-2 border-primary hover:rounded-lg hover:text-[#42bbb5]"
                 to="https://t.me/BaabALimam"
               >
                 <BsTelegram />
               </Link>
               <Link
-                className="hover:bg-secondary hover:text-primary text-xl font-bold p-1 border-2 border-primary hover:rounded-lg hover:text-[#c23c60]"
+                className="hover:bg-secondary hover:bg-card text-xl font-bold p-1 border-2 border-primary hover:rounded-lg hover:text-[#c23c60]"
                 to="https://www.instagram.com/ahammod9770/"
               >
                 <LiaInstagram />
               </Link>
               <Link
-                className="hover:bg-secondary hover:text-primary text-xl p-1 border-2 border-primary hover:rounded-lg hover:text-[#33ac7c]"
+                className="hover:bg-secondary hover:bg-card text-xl p-1 border-2 border-primary hover:rounded-lg hover:text-[#33ac7c]"
                 to="https://discord.com/users/1258114332605022310"
               >
                 <BsDiscord />
@@ -55,7 +55,7 @@ export default function Footer() {
           </ul>
         </div>
         <div>
-          <h1 className="ext-primery font-bold text-4xl mb-5">Legal Links</h1>
+          <h1 className="text-primary font-bold text-4xl mb-5">Legal Links</h1>
           <ul className="gap-1 flex flex-col">
             <li className="text-xl   text-primary  ">
               <a className="hover:decoration-dotted hover:underline" href="#">Privacy Policy</a>
@@ -76,7 +76,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t-2 border-primary mx-auto w-11/12 mt-4 text-center pt-6">
-        <p>All copyrite Reserved &copy;2025</p>
+        <p className="text-primary">All copyrite Reserved &copy;2025</p>
       </div>
     </div>
   );

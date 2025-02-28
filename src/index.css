@@ -18,7 +18,7 @@
   --text-secondary-dark: rgb(160, 160, 160);
 
   --bg-primary-light: white;
-  --bg-primary-dark: black;
+  --bg-primary-dark: #312a23;
 
   --bg-secondary-light: rgb(212, 212, 212);
   --bg-secondary-dark: rgb(34, 34, 34);
@@ -26,8 +26,8 @@
   --bg-navbar-light: rgb(250, 235, 215);
   --bg-navbar-dark: rgb(29, 29, 58);
 
-  --bg-card-light: #fdfdfd;
-  --bg-card-dark: #121111;
+  --bg-card-light: #e2dbdb;
+  --bg-card-dark: #2b2727;
 
   --bg-footer-light: rgb(250, 235, 215);
   --bg-footer-dark: #171319;
@@ -102,9 +102,39 @@
 a.active {
   border-bottom: 2px solid #7C3AED;
   color: #7C3AED;
+  
+} 
+
+/* this code for styling aside under dashboard */
+a.activeBg{
+  border-bottom: 2px solid #25c364;
+  animation: activeAnim  2s infinite linear;
+}
+@keyframes activeAnim {
+  0%{
+    color:rgb(234, 18, 18);
+  }
+  25%{
+    color:rgb(235, 204, 5);
+  }
+ 50%{
+    color:rgb(3, 225, 25);
+  }
+  75%{
+    color:rgb(4, 130, 227);
+  }
+  100%{
+    color:rgb(227, 4, 205);
+  }
+   
+}
+.asideShadow{  
+  box-shadow:  0px 0px 10px  rgba(0, 0, 0, 0.6);
+   
+ 
 }
 
-
+/* end of aside  */
  
 .sponsor-box { 
   width: 140px; 

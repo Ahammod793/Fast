@@ -8,12 +8,12 @@ export default function PrivateAuthentication({children}) {
     const location = useLocation()
   
   if(loading){
-    return <Loading></Loading>
+    return <Loading /> 
   }
 
   if(user){
     return children
   } else {
-    return <Navigate state={location.pathname} to={"/soft_heart_register_accessPage"}></Navigate>;
+    return <Navigate state={location.pathname} to={"/login"}></Navigate>;
   }
-}
+}  

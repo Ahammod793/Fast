@@ -17,7 +17,6 @@ export default function ThemeContext({ children }) {
   useEffect(() => {
     localStorage.setItem("theme", theme);
   }, [theme]); 
- 
   function themeHundler() {
     setTheme(!theme);
   }

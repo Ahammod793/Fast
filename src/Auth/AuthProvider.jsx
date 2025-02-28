@@ -15,7 +15,7 @@ export default function AuthProvider({ children }) {
   const [userEmail, setUserEmail] = useState(null);
   const [userImage, setUserImage] = useState(null);
   const [user, setUser] = useState(null);
-  const [laoding, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const googleProvider = new GoogleAuthProvider(); 
 
@@ -50,7 +50,7 @@ export default function AuthProvider({ children }) {
     loginWithGoogle,loginWithEmailPass,
     logOut,
     
-    laoding, setLoading
+    loading, setLoading
   };
 
   useEffect(() => {

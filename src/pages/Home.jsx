@@ -1,11 +1,15 @@
 import React from "react";
 import NavBar from "../components/NavBar";
 import Sponsors from "../components/Sponsors";
+import Carousal from "../components/Carousal";
+import PostEvent from "../components/PostEvent";
 
 export default function Home() {
   return (
     <>
-      <header></header>
+      <header className=" ">
+        <Carousal/>
+      </header>
 
       <section className="w-11/12 mx-auto  mt-24">
         <div className="flex items-center justify-center">
@@ -13,6 +17,10 @@ export default function Home() {
         </div>
         <Sponsors />
       </section>
+      <section>
+        <PostEvent/>
+      </section>
+
     </>
   );
 }
