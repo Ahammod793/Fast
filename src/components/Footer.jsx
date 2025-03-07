@@ -9,12 +9,12 @@ import logo from '../assets/logo.png'
 export default function Footer() {
   return (
     <div className="bg-footer py-8">
-      <div className="grid grid-cols-3 w-11/12 mx-auto ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-11/12 mx-auto ">
         <div className="flex flex-col">
           <h1 className="text-primary font-bold text-4xl mb-5">Contuct Info</h1>
           <ul className="text-primary">
             <li className="text-xl italic text-primary pb-1">
-              Fast@contuct.com
+              Fast@contact.com
             </li>
             <li className="text-xl italic text-primary pb-2">
               +880 1945-698802
@@ -26,7 +26,7 @@ export default function Footer() {
               <h2 className="text-base font-normar">Shah Monayem Hostel</h2>
               <h2 className="text-base font-normar">Room No. #208</h2>
             </li>
-            <li className="flex flex-row gap-8 mt-6 ">
+            <li className="flex flex-row gap-8 my-6 ">
               <Link
                 className="hover:bg-secondary hover:bg-card text-xl p-1 border-2 border-primary hover:rounded-lg hover:text-[#318890]"
                 to="https://www.facebook.com/Ahammodl/"
@@ -71,7 +71,7 @@ export default function Footer() {
             </li>
           </ul>
         </div>
-        <div>
+        <div className="mt-8">
             <img src={logo ? logo : ''} alt="Fast" className="text-primary text-4xl font-bold" />
         </div>
       </div>

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { IoLocationOutline } from "react-icons/io5";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Swal from "sweetalert2";
 export default function AddMarathon() {
   const [inputErr, setInputErr] = useState(null);
   const navigate = useNavigate();
@@ -21,8 +22,7 @@ export default function AddMarathon() {
 
   const inputImage = (e) => {
     const thumb = e.target.value;
-    setImageURL(thumb);
-    console.log(imageURL);
+    setImageURL(thumb); 
   };
   useEffect(() => {
     const interval = setInterval(() => {
@@ -40,6 +40,7 @@ export default function AddMarathon() {
     const file = form.file.value;
     const CurrentDate = currentTime.split("T")[0];
     const CurrentTime = new Date().toLocaleTimeString(); 
+    const creatorEmail = user.email;
     const addMarathon = {
       marathonTitle,
       startDate,
@@ -50,13 +51,14 @@ export default function AddMarathon() {
       location,
       details,
       file, totalReg ,
+      creatorEmail,
     };
     console.log(addMarathon)
     if (!marathonTitle) {
       return setInputErr("Input Title");
     } else if (!startDate) {
       return setInputErr("Input marathon Reg. Start Date");
-    } else if (!endTime) {
+    } else if (!endDate) {
       return setInputErr("Input marathon Reg. End Date");
     } else if (!marathonDate) {
       return setInputErr("Input marathon held Date");
@@ -66,8 +68,10 @@ export default function AddMarathon() {
       return setInputErr("Input details");
     } else if (!file) {
       return setInputErr("Input Thumbnail");
-    } else {
-      fetch(`http://localhost:5000/addMarathon`, {
+    } 
+
+    else {
+      fetch(`http://localhost:5000/add-marathon`, {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -76,16 +80,17 @@ export default function AddMarathon() {
       })
         .then((res) => res.json())
         .then((data) => {
+            console.log(data),
           Swal.fire({
             title: "success",
             text: "Ok",
             icon: "success",
-          }).then(form.reset(), navigate("/my-marathon"));
+          }).then(form.reset(), navigate("/dashboard/my-marathon"));
         });
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center my-6 mx-16  border-l pl-6 border-primary  min-h-screen text-primary">
+    <div className="flex flex-col items-center justify-center my-6 md:mx-16  border-l pl-6 border-primary  min-h-screen text-primary">
       <form
         className=" my-8 w-full"
         ref={marathonRefference}
@@ -100,9 +105,9 @@ export default function AddMarathon() {
             className="  h-10 border border-primary bg-card rounded  w-full mt-1 mb-5 p-4  text-secondary"
           />
         </label>
-        <div className="grid grid-cols-2 justify-between items-start my-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 justify-between items-start my-4">
           <div className="mb-3">
-            <h3 className="font-medium pb-1 ">Registration Start </h3>
+            <h3 className="font-medium pb-1 text-wrap">Registration Start </h3>
 
             <DatePicker
               selected={startDate}
@@ -139,8 +144,8 @@ export default function AddMarathon() {
             className="border border-primary bg-card h-10 p-2 rounded"
           />
         </div>
-        <div className="flex text-primary gap-14 my-6">
-          <h2 className="flex flex-row items-center justify-center font-medium pb-1 ">
+        <div className="flex md:flex-row flex-col text-primary gap-2 md:gap-14 my-6">
+          <h2 className="flex flex-row md:items-center items-start md:justify-center font-medium pb-1 ">
             <IoLocationOutline className="mr-2 " /> Location
           </h2>
           <input
@@ -158,12 +163,12 @@ export default function AddMarathon() {
             <select
               name="campaignType"
               id="campaignType"
-              className="border border-primary bg-card h-10 p-2 rounded"
+              className="border  border-primary bg-card h-10 p-2 rounded"
             >
-              <option value="5Km" defaultValue>5 Km</option>
-              <option value="10Km">10 Km</option>
-              <option value="15Km">15 Km</option>
-              <option value="20Km">20 Km</option>
+              <option value="5Km" className="md:w-full w-20" defaultValue>5 Km</option>
+              <option value="10Km" className="md:w-full w-20">10 Km</option>
+              <option value="15Km" className="md:w-full w-20">15 Km</option>
+              <option value="20Km" className="md:w-full w-20">20 Km</option>
             </select>
           </label>
         </div>
@@ -201,23 +206,23 @@ export default function AddMarathon() {
           </div>
         </div>
         <div className="flex text-primary">
-          <h2>Created At</h2>
-          <p name="marathonCreationDate">
-            {" "}
+          <h2 className="font-medium  text-left items-center mr-4">Created At</h2>
+          <p name="marathonCreationDate" className="flex flex-row gap-6 items-center">
+             
             <span name="DayMonYear">{currentTime.split("T")[0]}</span>{" "}
             <span name="hourMinSec">{new Date().toLocaleTimeString()}</span>{" "}
           </p>
         </div>
-        <div className="flex flex-col  gap-2">
+        <div className="flex flex-row items-center  gap-2">
           <h2 className="font-medium  text-left items-center p-1">
-            Total Reg. Count: <p name="totalReg">{totalReg}</p>
-          </h2>
+            Total Reg : 
+          </h2><p name="totalReg">{totalReg}</p>
         </div>
         <div className="items-center justify-center">
           <h4 className="font-light text-red-600">{inputErr}</h4>
         </div>
       </form>
-      <div className="flex items-end justify-end w-6/12 gap-6">
+      <div className="flex items-end justify-center md:justify-end w-6/12 gap-6">
         <button
           className="btn btn-outline  text-secondary "
           onClick={submitMarathon}

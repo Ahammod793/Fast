@@ -5,7 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom"; // Fix for navigati
 import Swal from "sweetalert2"; // Fix for Swal not defined
 
 export default function Login() {
-  const { setUser, loginWithGoogle, loginWithEmailPass } = useContext(AuthContext);
+  const {user, setUser, loginWithGoogle, loginWithEmailPass } = useContext(AuthContext);
   const [ResErr, setResErr] = useState(null);
   const formRef = useRef();
   const navigate = useNavigate(); // Fix for navigation
@@ -37,9 +37,22 @@ export default function Login() {
 
   // Handle Google Login
   const googleLogin = () => {
+    const now= new Date();
     loginWithGoogle()
       .then((res) => {
         setUser(res.user);
+        fetch(`http://localhost:5000/users`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(
+            { Name : res.user.displayName, Email : res.user.email, ProfilePic : res.user.photoURL, date : now }
+          ),
+        }).then(res =>  res.json()).then(data => {
+          // data
+        }).catch(err=>{
+          // err
+        })
+        
         Swal.fire({
           title: "Login Success!",
           icon: "success",
@@ -55,7 +68,7 @@ export default function Login() {
   };
 
   return (
-    <div className="max-w-md mx-auto my-16 text-primary">
+    <div className="w-11/12 md:max-w-md mx-auto my-8 md:my-16 text-primary">
       <div className="w-full max-w-md p-8 space-y-3 rounded-xl bg-card text-secondary border border-primary">
         <h1 className="text-2xl font-bold text-center">Login</h1>
         
@@ -97,7 +110,7 @@ export default function Login() {
         </form>
 
         {/* Social Login Section */}
-        <div className="flex items-center pt-4 space-x-1">
+        <div className="flex items-center pt-1 md:pt-4 space-x-1">
           <div className="flex-1 h-px sm:w-16 bg-gray-300"></div>
           <p className="px-3 text-sm">Login with social accounts</p>
           <div className="flex-1 h-px sm:w-16 bg-gray-300"></div>

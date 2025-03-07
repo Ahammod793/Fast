@@ -6,22 +6,22 @@
 
 :root {
   --primary-white: rgb(255, 255, 255);
-  --secondary-white: rgb(0, 0, 0);
+  --secondary-white: rgb(214, 194, 194);
 
-  --text-primary-light: black;
+  --text-primary-light: rgb(0, 0, 0);
   --text-primary-dark: white;
 
   --text-primary-blue-light: rgb(49, 0, 225);
-  --text-secondary-blue-derk: rgb(115, 255, 0);
+  --text-secondary-blue-dark: rgb(115, 255, 0);
 
-  --text-secondary-light: rgb(70, 70, 70);
-  --text-secondary-dark: rgb(160, 160, 160);
+  --text-secondary-light: rgb(0, 0, 0);
+  --text-secondary-dark: rgb(255, 255, 255);
 
   --bg-primary-light: white;
   --bg-primary-dark: #312a23;
 
-  --bg-secondary-light: rgb(212, 212, 212);
-  --bg-secondary-dark: rgb(34, 34, 34);
+  --bg-secondary-light: rgb(23, 15, 15);
+  --bg-secondary-dark: rgb(232, 221, 221);
 
   --bg-navbar-light: rgb(250, 235, 215);
   --bg-navbar-dark: rgb(29, 29, 58);
@@ -38,7 +38,8 @@
 
   --text-primary: var(--text-primary-light);
   --text-secondary: var(--text-secondary-light);
-  --text-primary-blue:var(--text-primary-blue-light)
+
+  --text-primary-blue:var(--text-primary-blue-light);
 
   --bg-primary: var(--bg-primary-light);
   --bg-secondary: var(--bg-secondary-light);
@@ -53,7 +54,7 @@
   --border-primary: var(--primary-white);
 
   --text-primary: var(--text-primary-dark);
-  --text-primary-blue:var(--text-secondary-blue-dark)
+  --text-primary-blue : var(--text-secondary-blue-dark);
   --text-secondary: var(--text-secondary-dark);
 
   --bg-primary: var(--bg-primary-dark);
@@ -62,7 +63,7 @@
   --bg-card: var(--bg-card-dark);
 
   --bg-navbar: var(--bg-navbar-dark);
-  --bg-footer: var(--bg-footer-dark)
+  --bg-footer: var(--bg-footer-dark);  
 }
 
 .border-primary {
@@ -74,7 +75,7 @@
   color: var(--text-primary);
 }
 .text-primaryBlue{
-  color:var(--text-primary-blue)
+  color:var(--text-primary-blue);
 }
 .text-secondary {
   color: var(--text-secondary);
@@ -130,8 +131,6 @@ a.activeBg{
 }
 .asideShadow{  
   box-shadow:  0px 0px 10px  rgba(0, 0, 0, 0.6);
-   
- 
 }
 
 /* end of aside  */
