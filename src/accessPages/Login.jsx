@@ -5,12 +5,13 @@ import { useNavigate, useLocation } from "react-router-dom"; // Fix for navigati
 import Swal from "sweetalert2"; // Fix for Swal not defined
 
 export default function Login() {
-  const {user, setUser, loginWithGoogle, loginWithEmailPass } = useContext(AuthContext);
+  const { user, setUser, loginWithGoogle, loginWithEmailPass } =
+    useContext(AuthContext);
   const [ResErr, setResErr] = useState(null);
   const formRef = useRef();
   const navigate = useNavigate(); // Fix for navigation
   const location = useLocation(); // Fix for location
-  
+
   // Handle Email & Password Login
   const emailPassLoginHandler = (e) => {
     e.preventDefault();
@@ -37,22 +38,28 @@ export default function Login() {
 
   // Handle Google Login
   const googleLogin = () => {
-    const now= new Date();
+    const now = new Date();
     loginWithGoogle()
       .then((res) => {
         setUser(res.user);
-        fetch(`http://localhost:5000/users`, {
+        fetch(`https://fast-backend-two.vercel.app/users`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(
-            { Name : res.user.displayName, Email : res.user.email, ProfilePic : res.user.photoURL, date : now }
-          ),
-        }).then(res =>  res.json()).then(data => {
-          // data
-        }).catch(err=>{
-          // err
+          body: JSON.stringify({
+            Name: res.user.displayName,
+            Email: res.user.email,
+            ProfilePic: res.user.photoURL,
+            date: now,
+          }),
         })
-        
+          .then((res) => res.json())
+          .then((data) => {
+            // data
+          })
+          .catch((err) => {
+            // err
+          });
+
         Swal.fire({
           title: "Login Success!",
           icon: "success",
@@ -71,32 +78,45 @@ export default function Login() {
     <div className="w-11/12 md:max-w-md mx-auto my-8 md:my-16 text-primary">
       <div className="w-full max-w-md p-8 space-y-3 rounded-xl bg-card text-secondary border border-primary">
         <h1 className="text-2xl font-bold text-center">Login</h1>
-        
+
         {/* Login Form */}
-        <form noValidate className="space-y-6" ref={formRef} onSubmit={emailPassLoginHandler}>
+        <form
+          noValidate
+          className="space-y-6"
+          ref={formRef}
+          onSubmit={emailPassLoginHandler}
+        >
           <div className="space-y-1 text-sm">
-            <label htmlFor="email" className="block">Email</label>
+            <label htmlFor="email" className="block">
+              Email
+            </label>
             <input
               type="email"
               name="email"
               id="email"
               placeholder="Email Address"
-              className="w-full px-4 py-3 rounded-md border-gray-300 bg-gray-50 focus:border-violet-600"
+              className="w-full px-4 py-3 rounded-md border-black border bg-card focus:border-violet-600"
               required
             />
           </div>
           <div className="space-y-1 text-sm">
-            <label htmlFor="password" className="block">Password</label>
+            <label htmlFor="password" className="block">
+              Password
+            </label>
             <input
               type="password"
               name="password"
               id="password"
               placeholder="Password"
-              className="w-full px-4 py-3 rounded-md border-gray-300 bg-gray-50 focus:border-violet-600"
+              className="w-full px-4 py-3 rounded-md border-black border bg-card focus:border-violet-600"
               required
             />
             <div className="flex justify-end text-xs">
-              <a href="#" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+              <a
+                href="#"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:underline"
+              >
                 Forgot Password?
               </a>
             </div>
@@ -127,12 +147,18 @@ export default function Login() {
         </div>
 
         {/* Error Message */}
-        {ResErr && <p className="text-red-500 text-sm font-light mt-2">{ResErr}</p>}
+        {ResErr && (
+          <p className="text-red-500 text-sm font-light mt-2">{ResErr}</p>
+        )}
 
         {/* Sign Up Link */}
         <p className="text-xs text-center sm:px-6 mt-4">
           Don't have an account?
-          <a href="#" rel="noopener noreferrer" className="underline px-1 hover:text-amber-500">
+          <a
+            href="#"
+            rel="noopener noreferrer"
+            className="underline px-1 hover:text-amber-500"
+          >
             Sign up
           </a>
         </p>

@@ -3,8 +3,8 @@ import { useLocation, useParams } from "react-router-dom";
 
 const DynamicTitle = () => {
   const location = useLocation();
-  const [marathonTitle, setMarathonTitle] = useState( )
-  const {id}= useParams()
+  const [marathonTitle, setMarathonTitle] = useState();
+  const { id } = useParams();
 
   useEffect(() => {
     const titles = {
@@ -19,34 +19,32 @@ const DynamicTitle = () => {
 
     // Special handling for Marathon Details
     if (location.pathname.startsWith("/marathon-details/")) {
-      fetch(`http://localhost:5000/marathons/${id}`)
+      fetch(`https://fast-backend-two.vercel.app/marathons/${id}`)
         .then((res) => res.json())
         .then((data) => {
-            // console.log(data.Title)
-          setMarathonTitle(data.Title);  // Assuming API response has `Title`
+          // console.log(data.Title)
+          setMarathonTitle(data.Title); // Assuming API response has `Title`
           document.title = `${data.Title} | Fast`;
         })
         .catch((err) => {
           document.title = "Marathon Details | Fast"; // Fallback if fetch fails
         });
     }
-    if(location.pathname.startsWith('/register-to-marathon/')){
-        fetch(`http://localhost:5000/marathons/${id}`)
+    if (location.pathname.startsWith("/register-to-marathon/")) {
+      fetch(`https://fast-backend-two.vercel.app/marathons/${id}`)
         .then((res) => res.json())
         .then((data) => {
-            // console.log(data.Title)
-          setMarathonTitle(data.Title);  
+          // console.log(data.Title)
+          setMarathonTitle(data.Title);
           document.title = `Register ${data.Title} | Fast`;
         })
         .catch((err) => {
           document.title = "Marathon Details | Fast"; // Fallback if fetch fails
         });
-    }
-     else {
+    } else {
       document.title = titles[location.pathname] || "Fast";
     }
-
   }, [location, id]);
-}
- 
-export default DynamicTitle ;
+};
+
+export default DynamicTitle;

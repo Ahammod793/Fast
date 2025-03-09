@@ -12,7 +12,7 @@ export default function MyMarathonList() {
 
   useEffect(() => {
     if (!user || !user.email) return;
-    fetch(`http://localhost:5000/my-marathon?email=${user.email}`)
+    fetch(`https://fast-backend-two.vercel.app/my-marathon?email=${user.email}`)
       .then((res) => res.json())
       .then((data) => {
         setMarathonData(data);
@@ -30,7 +30,7 @@ export default function MyMarathonList() {
       confirmButtonText: "Yes",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/delete-marathon/${_id}`, {
+        fetch(`https://fast-backend-two.vercel.app/delete-marathon/${_id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -43,7 +43,9 @@ export default function MyMarathonList() {
               }).then(navigate("/"));
             }
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            // console.log(err)
+          });
       }
     });
   };
@@ -75,15 +77,16 @@ export default function MyMarathonList() {
       details,
       file,
     };
-    fetch(`http://localhost:5000/update-marathon/${marathonId}`, {
+    fetch(`https://fast-backend-two.vercel.app/update-marathon/${marathonId}`, {
       method: "PUT",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(UpdateMarathon),
-    }).then(res => res.json()).then(data => {
-       
-      setIsOpen(false)
-      navigate(0);
     })
+      .then((res) => res.json())
+      .then((data) => {
+        setIsOpen(false);
+        navigate(0);
+      });
   };
 
   return (
@@ -109,42 +112,42 @@ export default function MyMarathonList() {
             Delete
           </th>
         </tr>
-        {
-          marathonData.length>0 ? (
-        marathonData.map((marathon, index) => (
-          <tr className="even:bg-card  border-b border-primary" key={index}>
-            <td className="p-2 items-center justify-center text-center hidden md:table-cell">
-              {index + 1}
-            </td>
-            <td className="hidden md:table-cell ">
-              <img src={marathon.thumbnail} alt="" className="w-full  h-12" />
-            </td>
-            <td className="md:pl-4 px-1    md:text-xl text-sm">
-              {marathon.Title}
-            </td>
-            <td className="md:p-2 p-1 border-x  text-center md:text-xl text-sm"> 
-              {marathon.marathonDate.split("T")[0]}
-            </td>
-            <td className="md:p-2 p-1   items-center text-center ">
-              <button
-                onClick={() => getMerathon(marathon._id)}
-                className="   rounded-md text-sm px-5   text-center  md:w-full w-10/12 h-3/4 md:h-full hover:underline btn  bg-base-300 cursor-pointer"
-              >
-                Update
-              </button>
-            </td>
-            <td className="md:p-2 p-1   items-center text-center ">
-              <button
-                className="w-full px-5 rounded-md h-full hover:underline btn  text-sm bg-base-300 cursor-pointer "
-                onClick={() => deleteMarathon(marathon._id)}
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-        ))
-      ): <div className="text-xl font-bold">you naver added marathon</div>
-      }
+        {marathonData.length > 0 ? (
+          marathonData.map((marathon, index) => (
+            <tr className="even:bg-card  border-b border-primary" key={index}>
+              <td className="p-2 items-center justify-center text-center hidden md:table-cell">
+                {index + 1}
+              </td>
+              <td className="hidden md:table-cell ">
+                <img src={marathon.thumbnail} alt="" className="w-full  h-12" />
+              </td>
+              <td className="md:pl-4 px-1    md:text-xl text-sm">
+                {marathon.Title}
+              </td>
+              <td className="md:p-2 p-1 border-x  text-center md:text-xl text-sm">
+                {marathon.marathonDate.split("T")[0]}
+              </td>
+              <td className="md:p-2 p-1   items-center text-center ">
+                <button
+                  onClick={() => getMerathon(marathon._id)}
+                  className="   rounded-md text-sm px-5   text-center  md:w-full w-10/12 h-3/4 md:h-full hover:underline btn  bg-base-300 cursor-pointer"
+                >
+                  Update
+                </button>
+              </td>
+              <td className="md:p-2 p-1   items-center text-center ">
+                <button
+                  className="w-full px-5 rounded-md h-full hover:underline btn  text-sm bg-base-300 cursor-pointer "
+                  onClick={() => deleteMarathon(marathon._id)}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))
+        ) : (
+          <div className="text-xl font-bold">you naver added marathon</div>
+        )}
       </table>
       {isOpen && (
         <div className="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full h-screen bg-black bg-opacity-50">
@@ -247,7 +250,7 @@ export default function MyMarathonList() {
                 <div className="flex justify-between"></div>
                 <button
                   type="submit"
-                  onClick={ updateHunlder}
+                  onClick={updateHunlder}
                   className="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-md text-sm px-5 my-1 py-2.5"
                 >
                   Update

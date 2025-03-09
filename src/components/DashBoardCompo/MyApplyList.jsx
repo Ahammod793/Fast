@@ -5,37 +5,37 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import Loading from "../Loading";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import useAxios from "../../Auth/AxiosProvider";
 
 export default function MyApplyList() {
-  const [Data, setData] = useState( );
+  const [Data, setData] = useState();
   const { user } = useContext(AuthContext);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [applicationID, setApplicationID] = useState(null);
   const [applicationData, setApplicationData] = useState([]);
-  const [searchM, setSearchM] = useState(null)
-  const navigate = useNavigate()
+
+  const navigate = useNavigate();
+  const axiosHook = useAxios();
   // console.log(user);
   // load data from database to show a table
   useEffect(() => {
     if (!user?.email) return;
-    const url = `http://localhost:5000/marathons/?email=${user.email}`
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data)
-        setData(data);
-        setIsLoaded(true);
-      });
+    const url = `/marathons/?email=${user.email}`;
+    // fetch(url)
+    // .then((res) => res.json())
+    axiosHook.get(url).then((res) => {
+      setData(res.data);
+      setIsLoaded(true);
+    });
   }, [user?.email]);
 
   // load the application data to update them  as needed
 
   useEffect(() => {
-    fetch(`http://localhost:5000/my-application/${applicationID}`)
+    fetch(`https://fast-backend-two.vercel.app/my-application/${applicationID}`)
       .then((res) => res.json())
       .then((data) => {
-       
         setApplicationData(data);
         setIsLoaded(true);
       });
@@ -55,23 +55,24 @@ export default function MyApplyList() {
     const Gender = application.gender.value;
     const Blood = application.blood.value;
 
-    fetch(`http://localhost:5000/my-applicatio-update/${applicationID}`, {
-      method: "PATCH",
-    headers :{ "content-type": "application/json" },
-      body: JSON.stringify({ Name, Phone, Gender, Blood })
-    })
+    fetch(
+      `https://fast-backend-two.vercel.app/my-applicatio-update/${applicationID}`,
+      {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ Name, Phone, Gender, Blood }),
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         Swal.fire({
-                    title: "success",
-                    text: "Ok",
-                    icon: "success",
-                  }).then(application.reset(), navigate('/dashboard'));
-                });
-              
-      }
-    
-  
+          title: "success",
+          text: "Ok",
+          icon: "success",
+        }).then(application.reset(), navigate("/dashboard"));
+      });
+  };
+
   // please remember that  id is a feild_Id saved in the myApplicationCollection database.
   const deleteApplication = (id) => {
     Swal.fire({
@@ -84,12 +85,12 @@ export default function MyApplyList() {
       confirmButtonText: "Yes",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/my-application/${id}`, {
+        fetch(`https://fast-backend-two.vercel.app/my-application/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
           .then((data) => {
-            console.log(data, " from application-delete");
+            // console.log(data, " from application-delete");
             if (data.deletedCount > 0) {
               Swal.fire({
                 title: "Deleted!",
@@ -100,29 +101,34 @@ export default function MyApplyList() {
           });
       }
     });
-  }; 
-  
+  };
 
-  const applicationHundler=(e)=>{
-    const targetInput = (e.target.value) ;
-      let url = `http://localhost:5000/marathons/?email=${user.email}`
-      if(targetInput){
-        url += `&title=${encodeURIComponent(targetInput)}`
-      } 
-      fetch(url)
-        .then((res) => res.json())
-        .then((data) => {
-          // console.log(data)
-          // console.log(url)
-          setData(data);
-          setIsLoaded(true);
-        });
-   
-  }
+  const applicationHundler = (e) => {
+    const targetInput = e.target.value;
+    let url = `/marathons/?email=${user.email}`;
+    if (targetInput) {
+      url += `&title=${encodeURIComponent(targetInput)}`;
+    }
+    // fetch(url)
+    //   .then((res) => res.json())
+    axiosHook.get(url).then((data) => {
+      setData(data.data);
+      setIsLoaded(true);
+    });
+  };
   return (
     <div className="flex flex-col   my-6 md:mx-16 mx-1 border-l pl-2 md:pl-6  border-primary  min-h-screen text-primary">
       <div className="flex items-end justify-end mb-2">
-       <form className=" border border-purple-600 flex flex-row justify-center items-center gap-2 focus-within:border-green-400"><FaSearch className="relative left-2 text-slate-400"/> <input type='search' onChange={applicationHundler} name="searchInput" placeholder="search application" className="bg-inherit p-2 text-primary bg-primary outline-none   "/></form>
+        <form className=" border border-purple-600 flex flex-row justify-center items-center gap-2 focus-within:border-green-400">
+          <FaSearch className="relative left-2 text-slate-400" />{" "}
+          <input
+            type="search"
+            onChange={applicationHundler}
+            name="searchInput"
+            placeholder="search application"
+            className="bg-inherit p-2 text-primary bg-primary outline-none   "
+          />
+        </form>
       </div>
       <table className="w-full items-center">
         <tr className="text-sm md:text-xl font-bold w-full   ">
@@ -140,38 +146,46 @@ export default function MyApplyList() {
           </th>
         </tr>
         {isLoaded ? (
-         Data.length>0 ? ( 
-          Data.map((d, n) => (
-            <tr className="border    " key={n}>
-              <td className=" hidden md:block p-2 items-center justify-center text-center ">
-                {n + 1}.
-              </td>
-              <td className="md:pl-4 pl-1    md:text-xl text-sm">
-                <img src={d.thumbnail} alt="" className="w-full h-24 md:h-36" />
-              </td>
+          Data.length > 0 ? (
+            Data.map((d, n) => (
+              <tr className="border    " key={n}>
+                <td className=" hidden md:block p-2 items-center justify-center text-center ">
+                  {n + 1}.
+                </td>
+                <td className="md:pl-4 pl-1    md:text-xl text-sm">
+                  <img
+                    src={d.thumbnail}
+                    alt=""
+                    className="w-full h-24 md:h-36"
+                  />
+                </td>
 
-              <td className="md:px-4 pl-1    md:text-xl text-sm border-x border-primary">
-                {d.Title}
-              </td>
-              <td className="flex flex-row  items-center justify-center gap-3 mt-4 md:mt-8 p-5">
-                <button
-                  onClick={() => editApplication(d._id)}
-                  title="Edit Application"
-                  className="p-2 border border-primary text-lime-700 hover:rounded-lg hover:bg-green-500 hover:text-white"
-                >
-                  <FaRegEdit />
-                </button>
-                <button
-                  onClick={() => deleteApplication(d._id)}
-                  title="Delete Application"
-                  className="p-2 border border-primary text-red-700 hover:rounded-lg hover:bg-pink-600 hover:text-white"
-                >
-                  <RiDeleteBin6Line />
-                </button>
-              </td>
-            </tr>
-          ))
-         ) : <div className=" flex absolute justify-center items-center  top-2/4 text-3xl font-bold ">Not Found Application</div>
+                <td className="md:px-4 pl-1    md:text-xl text-sm border-x border-primary">
+                  {d.Title}
+                </td>
+                <td className="flex flex-row  items-center justify-center gap-3 mt-4 md:mt-8 p-5">
+                  <button
+                    onClick={() => editApplication(d._id)}
+                    title="Edit Application"
+                    className="p-2 border border-primary text-lime-700 hover:rounded-lg hover:bg-green-500 hover:text-white"
+                  >
+                    <FaRegEdit />
+                  </button>
+                  <button
+                    onClick={() => deleteApplication(d._id)}
+                    title="Delete Application"
+                    className="p-2 border border-primary text-red-700 hover:rounded-lg hover:bg-pink-600 hover:text-white"
+                  >
+                    <RiDeleteBin6Line />
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <div className=" flex absolute justify-center items-center  top-2/4 text-3xl font-bold ">
+              Not Found Application
+            </div>
+          )
         ) : (
           <div className="flex flex-row items-center justify-center ">
             <Loading />
@@ -261,7 +275,8 @@ export default function MyApplyList() {
                     </label>
                     <select
                       name="blood"
-                      id="bloodGroup" defaultValue={applicationData.Blood} 
+                      id="bloodGroup"
+                      defaultValue={applicationData.Blood}
                       className="bg-card ml-4 border border-primary"
                     >
                       <option value="A+">A+</option>

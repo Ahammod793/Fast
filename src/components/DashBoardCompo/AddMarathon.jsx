@@ -16,13 +16,13 @@ export default function AddMarathon() {
   const [marathonDate, setMarathonDate] = useState(new Date());
   const [currentTime, setCurrentTime] = useState(new Date().toISOString());
 
-  const [totalReg, setTotalReg] = useState(0)
+  const [totalReg, setTotalReg] = useState(0);
 
   const marathonRefference = useRef();
 
   const inputImage = (e) => {
     const thumb = e.target.value;
-    setImageURL(thumb); 
+    setImageURL(thumb);
   };
   useEffect(() => {
     const interval = setInterval(() => {
@@ -39,7 +39,7 @@ export default function AddMarathon() {
     const details = form.marathonDetails.value;
     const file = form.file.value;
     const CurrentDate = currentTime.split("T")[0];
-    const CurrentTime = new Date().toLocaleTimeString(); 
+    const CurrentTime = new Date().toLocaleTimeString();
     const creatorEmail = user.email;
     const addMarathon = {
       marathonTitle,
@@ -50,10 +50,11 @@ export default function AddMarathon() {
       CurrentTime,
       location,
       details,
-      file, totalReg ,
+      file,
+      totalReg,
       creatorEmail,
     };
-    console.log(addMarathon)
+    // console.log(addMarathon)
     if (!marathonTitle) {
       return setInputErr("Input Title");
     } else if (!startDate) {
@@ -68,10 +69,8 @@ export default function AddMarathon() {
       return setInputErr("Input details");
     } else if (!file) {
       return setInputErr("Input Thumbnail");
-    } 
-
-    else {
-      fetch(`http://localhost:5000/add-marathon`, {
+    } else {
+      fetch(`https://fast-backend-two.vercel.app/add-marathon`, {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -80,7 +79,7 @@ export default function AddMarathon() {
       })
         .then((res) => res.json())
         .then((data) => {
-            console.log(data),
+          // console.log(data),
           Swal.fire({
             title: "success",
             text: "Ok",
@@ -165,10 +164,18 @@ export default function AddMarathon() {
               id="campaignType"
               className="border  border-primary bg-card h-10 p-2 rounded"
             >
-              <option value="5Km" className="md:w-full w-20" defaultValue>5 Km</option>
-              <option value="10Km" className="md:w-full w-20">10 Km</option>
-              <option value="15Km" className="md:w-full w-20">15 Km</option>
-              <option value="20Km" className="md:w-full w-20">20 Km</option>
+              <option value="5Km" className="md:w-full w-20" defaultValue>
+                5 Km
+              </option>
+              <option value="10Km" className="md:w-full w-20">
+                10 Km
+              </option>
+              <option value="15Km" className="md:w-full w-20">
+                15 Km
+              </option>
+              <option value="20Km" className="md:w-full w-20">
+                20 Km
+              </option>
             </select>
           </label>
         </div>
@@ -206,17 +213,22 @@ export default function AddMarathon() {
           </div>
         </div>
         <div className="flex text-primary">
-          <h2 className="font-medium  text-left items-center mr-4">Created At</h2>
-          <p name="marathonCreationDate" className="flex flex-row gap-6 items-center">
-             
+          <h2 className="font-medium  text-left items-center mr-4">
+            Created At
+          </h2>
+          <p
+            name="marathonCreationDate"
+            className="flex flex-row gap-6 items-center"
+          >
             <span name="DayMonYear">{currentTime.split("T")[0]}</span>{" "}
             <span name="hourMinSec">{new Date().toLocaleTimeString()}</span>{" "}
           </p>
         </div>
         <div className="flex flex-row items-center  gap-2">
           <h2 className="font-medium  text-left items-center p-1">
-            Total Reg : 
-          </h2><p name="totalReg">{totalReg}</p>
+            Total Reg :
+          </h2>
+          <p name="totalReg">{totalReg}</p>
         </div>
         <div className="items-center justify-center">
           <h4 className="font-light text-red-600">{inputErr}</h4>
